@@ -1,17 +1,18 @@
 import React, { FC, useState } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, KeyboardTypeOptions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import styles from './styles';
 import colors from '../../styles/colors';
 
-interface ButtonProps {
+interface InputProps {
   onChangeText(): void;
+  keyboardType: KeyboardTypeOptions;
   placeholder: string;
   icon: string;
 }
 
-const Input: FC<ButtonProps> = ({ children, icon, ...props }) => {
+const Input: FC<InputProps> = ({ children, icon, keyboardType, ...props }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -25,6 +26,7 @@ const Input: FC<ButtonProps> = ({ children, icon, ...props }) => {
         />
         <TextInput
           {...props}
+          keyboardType={keyboardType}
           style={styles.textInput}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 
-import { FontAwesome5, Feather } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import styles from './styles';
 
 const Calls: FC = () => {
