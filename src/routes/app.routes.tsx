@@ -5,8 +5,8 @@ import {
 } from '@react-navigation/stack';
 
 import Home from '../pages/Home';
-import NewRegister from '../pages/NewRegister';
-import RegisterDetails from '../pages/RegisterDetails';
+import NewRecord from '../pages/NewRecord';
+import RecordDetails from '../pages/RecordDetails';
 import Profile from '../pages/Profile';
 
 const AppStack = createStackNavigator();
@@ -31,8 +31,8 @@ const AppRoutes: FC = () => (
     />
 
     <AppStack.Screen
-      name="NewRegister"
-      component={NewRegister}
+      name="NewRecord"
+      component={NewRecord}
       options={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         title: 'Novo Registro',
@@ -44,8 +44,8 @@ const AppRoutes: FC = () => (
     />
 
     <AppStack.Screen
-      name="RegisterDetails"
-      component={RegisterDetails}
+      name="RecordDetails"
+      component={RecordDetails}
       options={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         title: 'Detalhes',

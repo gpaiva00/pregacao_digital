@@ -9,6 +9,7 @@ const metrics = {
   mediumMargin: 15,
   margin: 20,
   smallMargin: 10,
+  tinyMargin: 8,
   inputHeight: 50,
   buttonHeight: 50,
   screenWidth: width < height ? width : height,

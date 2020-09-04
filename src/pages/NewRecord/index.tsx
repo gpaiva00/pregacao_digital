@@ -3,12 +3,12 @@ import { View, Text } from 'react-native';
 
 import styles from './styles';
 
-const RegisterDetails: FC = () => {
+const NewRecord: FC = () => {
   return (
     <View>
-      <Text>RegisterDetails</Text>
+      <Text>NewRecord</Text>
     </View>
   );
 };
 
-export default RegisterDetails;
+export default NewRecord;

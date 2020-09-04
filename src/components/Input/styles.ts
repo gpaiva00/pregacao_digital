@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native';
 import metrics from '../../styles/metrics';
-import colors from '../../styles/colors';
-import fonts from '../../styles/fonts';
 import general from '../../styles/general';
 
 const styles = StyleSheet.create({
@@ -12,6 +10,14 @@ const styles = StyleSheet.create({
   },
   input: {
     ...general.defaultInput,
+  },
+  icon: {
+    // marginRight: metrics.smallMargin,
+  },
+  textInput: {
+    width: '91%',
+    padding: metrics.smallMargin,
+    height: metrics.inputHeight,
   },
 });
 

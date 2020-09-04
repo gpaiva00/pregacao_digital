@@ -11,7 +11,7 @@ export default StyleSheet.create({
   sessionTitle: {
     fontSize: fonts.big,
     fontWeight: 'bold',
-    marginBottom: metrics.margin,
+    marginVertical: metrics.mediumMargin,
     color: colors.title,
   },
   lable: {
@@ -38,8 +38,10 @@ export default StyleSheet.create({
     borderRadius: metrics.radius,
     borderWidth: 1,
     borderColor: colors.inputBorder,
-    padding: metrics.smallMargin,
+    paddingHorizontal: metrics.smallMargin,
     fontSize: fonts.regular,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   defaultButtonText: {
     color: '#fff',

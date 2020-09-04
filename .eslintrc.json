@@ -27,6 +27,7 @@
         "prettier"
     ],
     "rules": {
+        "react/jsx-props-no-spreading": "warn",
         "import/no-extraneous-dependencies": "off",
         "react/prop-types": "warn",
         "prettier/prettier": "warn",
