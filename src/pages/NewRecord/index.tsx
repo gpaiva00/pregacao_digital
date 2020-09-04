@@ -13,17 +13,32 @@ const NewRecord: FC = () => {
         <>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Horas</Text>
-            <Input placeholder="Horas" keyboardType="numbers-and-punctuation" />
+            <Input
+              onChangeText={() => {}}
+              icon="clock"
+              placeholder="Horas"
+              keyboardType="numbers-and-punctuation"
+            />
           </View>
 
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Publicações</Text>
-            <Input placeholder="Quantidade" keyboardType="numeric" />
+            <Input
+              onChangeText={() => {}}
+              icon="book"
+              placeholder="Quantidade"
+              keyboardType="numeric"
+            />
           </View>
 
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Vídeos</Text>
-            <Input placeholder="Quantidade" keyboardType="numeric" />
+            <Input
+              onChangeText={() => {}}
+              icon="film"
+              placeholder="Quantidade"
+              keyboardType="numeric"
+            />
           </View>
         </>
       );
@@ -32,17 +47,27 @@ const NewRecord: FC = () => {
       <>
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Morador(a)</Text>
-          <Input placeholder="José da Silva" />
+          <Input
+            onChangeText={() => {}}
+            icon="user"
+            placeholder="José da Silva"
+          />
         </View>
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Endereço</Text>
-          <Input placeholder="Rua Padre Francisco Carneiro, 123" />
+          <Input
+            onChangeText={() => {}}
+            icon="map"
+            placeholder="Rua Padre Francisco Carneiro, 123"
+          />
         </View>
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Telefone ou Celular</Text>
           <Input
+            onChangeText={() => {}}
+            icon="phone"
             placeholder="(11) 91234-5678"
             keyboardType="numbers-and-punctuation"
           />

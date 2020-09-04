@@ -7,9 +7,9 @@ import colors from '../../styles/colors';
 
 interface InputProps {
   onChangeText(): void;
-  keyboardType: KeyboardTypeOptions;
+  keyboardType?: KeyboardTypeOptions;
   placeholder: string;
-  icon: string;
+  icon?: string;
 }
 
 const Input: FC<InputProps> = ({ children, icon, keyboardType, ...props }) => {
