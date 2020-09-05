@@ -1,19 +1,19 @@
 import React, { FC } from 'react';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 
-import { FontAwesome5, Feather } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import styles from './styles';
 
-const Studies: FC = () => {
+const NextCalls: FC = () => {
   const data = [
     {
-      personName: 'Gabriel Souza',
+      personName: 'José Pereira',
       address: 'Rua da capitação, 451',
       phone: '(11) 2553-1231',
       calls: [1, 2, 3],
     },
     {
-      personName: 'Juvenil Juvencio',
+      personName: 'Regina Alves',
       address: 'Rua cabral de ataíde, 123',
       phone: '(11) 2553-1231',
       calls: [1, 2, 3, 1, 2, 3],
@@ -22,7 +22,7 @@ const Studies: FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Estudos</Text>
+      <Text style={styles.title}>Próximas conversas</Text>
       <FlatList
         style={{ padding: 10 }}
         data={data}
@@ -66,4 +66,4 @@ const Studies: FC = () => {
   );
 };
 
-export default Studies;
+export default NextCalls;

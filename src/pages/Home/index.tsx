@@ -7,6 +7,7 @@ import HeaderRight from './HeaderRight';
 import DailyPreaching from './DailyPreaching';
 import Calls from './Calls';
 import Studies from './Studies';
+import NextCalls from './NextCalls';
 
 interface HomeProps {
   navigation: StackNavigationProp<any>;
@@ -27,6 +28,7 @@ const Home: FC<HomeProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
+        <NextCalls />
         <DailyPreaching />
         <Calls />
         <Studies />

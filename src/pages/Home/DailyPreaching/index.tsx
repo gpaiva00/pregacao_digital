@@ -15,6 +15,7 @@ const DailyPreaching: FC = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Pregação Diária</Text>
       <FlatList
+        style={{ padding: 10 }}
         data={data}
         horizontal
         showsHorizontalScrollIndicator={false}

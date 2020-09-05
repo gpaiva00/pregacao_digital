@@ -14,12 +14,9 @@ const styles = StyleSheet.create({
     ...general.sessionTitle,
   },
   item: {
-    backgroundColor: colors.primary,
-    padding: metrics.smallMargin,
-    marginHorizontal: metrics.tinyMargin,
+    ...general.defaultTile,
     height: 180,
     width: 250,
-    borderRadius: metrics.radius,
   },
   itemHeader: {
     flexDirection: 'row',

@@ -48,6 +48,20 @@ export default StyleSheet.create({
     fontSize: fonts.big,
     fontWeight: 'bold',
   },
+  defaultTile: {
+    backgroundColor: colors.primary,
+    padding: metrics.smallMargin,
+    marginHorizontal: metrics.tinyMargin,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: -3,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 10,
+    borderRadius: metrics.radius,
+  },
 });
 
 // export default general;

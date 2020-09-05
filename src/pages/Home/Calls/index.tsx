@@ -24,6 +24,7 @@ const Calls: FC = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Revisitas</Text>
       <FlatList
+        style={{ padding: 10 }}
         data={data}
         horizontal
         showsHorizontalScrollIndicator={false}

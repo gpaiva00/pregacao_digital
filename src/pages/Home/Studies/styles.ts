@@ -9,17 +9,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width: metrics.screenWidth,
     paddingHorizontal: metrics.margin,
+    paddingBottom: metrics.margin,
   },
   title: {
     ...general.sessionTitle,
   },
   item: {
-    backgroundColor: colors.primary,
-    padding: metrics.smallMargin,
-    marginHorizontal: metrics.tinyMargin,
+    ...general.defaultTile,
     height: 150,
     width: 250,
-    borderRadius: metrics.radius,
   },
   itemHeader: {
     flexDirection: 'row',
