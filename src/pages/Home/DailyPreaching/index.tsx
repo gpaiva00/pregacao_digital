@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 
 import { FontAwesome5, Feather } from '@expo/vector-icons';
 import styles from './styles';
@@ -69,11 +69,6 @@ const DailyPreaching: FC = () => {
                   </Text>
                 </View>
               )}
-            </View>
-            <View style={styles.itemFooter}>
-              <TouchableOpacity onPress={() => {}} style={styles.itemButton}>
-                <Text style={styles.itemButtonText}>Ver mais</Text>
-              </TouchableOpacity>
             </View>
           </View>
         )}

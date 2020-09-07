@@ -1,67 +1,75 @@
 import React, { FC } from 'react';
-import { View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
-import { Feather } from '@expo/vector-icons';
+import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import styles from './styles';
+import colors from '../../../styles/colors';
 
-const Calls: FC = () => {
+interface CallsProps {
+  goToNewCall(): void;
+}
+
+const Calls: FC<CallsProps> = ({ goToNewCall }) => {
   const data = [
     {
-      personName: 'José Pereira',
-      address: 'Rua da capitação, 451',
-      phone: '(11) 2553-1231',
-      calls: [1, 2, 3],
+      type: '1° Conversa',
+      time: '10:30',
+      date: '01/09/2020',
+      publication: 'Bíblia Ensina',
+      comments: 'Falamos sobre o fim do sofrimento. Li o texto de Apo. 21:3,4',
     },
     {
-      personName: 'Regina Alves',
-      address: 'Rua cabral de ataíde, 123',
-      phone: '(11) 2553-1231',
-      calls: [1, 2, 3, 1, 2, 3],
+      type: '2° Conversa',
+      time: '10:30',
+      date: '02/09/2020',
+      publication: 'Bíblia Ensina',
+      comments:
+        'Respondi o que Deus vai fazer no futuro. Li o texto Sal. 37:29',
     },
   ];
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Revisitas</Text>
-      <FlatList
-        style={{ padding: 10 }}
-        data={data}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(_, index) => String(index)}
-        renderItem={({ item, index }) => (
-          <View style={styles.item}>
-            <View style={styles.itemHeader}>
-              <Text style={styles.itemTitle}>{item.personName}</Text>
-              <Text style={styles.itemDate}>10/05/2020</Text>
-            </View>
-            <View style={styles.itemBody}>
-              {item.address !== '' && (
-                <View style={styles.itemData}>
-                  <Feather style={styles.itemIcon} name="map-pin" size={16} />
-                  <Text style={styles.itemText}>{item.address}</Text>
-                </View>
-              )}
-              {item.phone !== '' && (
-                <View style={styles.itemData}>
-                  <Feather style={styles.itemIcon} name="phone" size={16} />
-                  <Text style={styles.itemText}>{item.phone}</Text>
-                </View>
-              )}
-            </View>
-            <View style={styles.itemFooter}>
-              <Text style={styles.itemText}>
-                {`${item.calls.length} ${
-                  item.calls.length > 1 ? 'conversas' : 'conversa'
-                }`}
-              </Text>
-              <TouchableOpacity onPress={() => {}} style={styles.itemButton}>
-                <Text style={styles.itemButtonText}>Ver mais</Text>
-              </TouchableOpacity>
-            </View>
+      <View style={styles.callsHeader}>
+        <Text style={styles.title}>Conversas</Text>
+        <TouchableOpacity onPress={goToNewCall}>
+          <FontAwesome5 name="plus-circle" size={25} color={colors.icon} />
+        </TouchableOpacity>
+      </View>
+
+      {data.map((item, index) => (
+        <View key={String(index)} style={styles.item}>
+          <View style={styles.itemHeader}>
+            <Text style={styles.itemTitle}>{item.type}</Text>
+            <Text style={styles.itemDate}>{item.date}</Text>
           </View>
-        )}
-      />
+
+          <View style={styles.itemBody}>
+            <View style={styles.itemData}>
+              <Feather style={styles.itemIcon} name="clock" size={18} />
+              <Text style={styles.itemText}>{item.time}</Text>
+            </View>
+
+            <View style={styles.itemData}>
+              <Feather style={styles.itemIcon} name="book" size={18} />
+              <Text style={styles.itemText}>{item.publication}</Text>
+            </View>
+
+            {item.comments && (
+              <View style={styles.itemData}>
+                <Feather
+                  style={styles.itemIcon}
+                  name="message-square"
+                  size={18}
+                />
+                <View style={styles.itemDataComments}>
+                  <Text style={styles.itemText}>{item.comments}</Text>
+                </View>
+              </View>
+            )}
+          </View>
+        </View>
+      ))}
     </View>
   );
 };

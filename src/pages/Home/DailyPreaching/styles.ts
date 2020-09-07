@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   itemText: {
-    fontSize: 13,
+    fontSize: fonts.medium,
     color: '#fff',
   },
   itemIcon: {

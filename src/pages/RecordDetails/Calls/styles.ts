@@ -7,16 +7,29 @@ import general from '../../../styles/general';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: metrics.screenWidth,
-    paddingHorizontal: metrics.margin,
+  },
+  callsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: metrics.margin,
+  },
+  callsTitle: {
+    ...general.sessionTitle,
   },
   title: {
     ...general.sessionTitle,
   },
   item: {
     ...general.defaultTile,
+    marginHorizontal: 0,
+    marginVertical: metrics.tinyMargin,
     height: 150,
-    width: 250,
+
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
   },
   itemHeader: {
     flexDirection: 'row',
@@ -33,15 +46,16 @@ const styles = StyleSheet.create({
     color: colors.cardTitle,
     fontSize: fonts.medium,
   },
-  itemBody: {
-    flex: 1,
-  },
+  itemBody: {},
   itemData: {
     flexDirection: 'row',
     marginVertical: 4,
   },
+  itemDataComments: {
+    maxWidth: '90%',
+  },
   itemText: {
-    fontSize: 13,
+    fontSize: fonts.medium,
     color: '#fff',
   },
   itemIcon: {

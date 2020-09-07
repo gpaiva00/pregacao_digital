@@ -8,6 +8,7 @@ import Home from '../pages/Home';
 import NewRecord from '../pages/NewRecord';
 import RecordDetails from '../pages/RecordDetails';
 import Profile from '../pages/Profile';
+import NewCall from '../pages/NewCall';
 
 const AppStack = createStackNavigator();
 
@@ -63,6 +64,19 @@ const AppRoutes: FC = () => (
       options={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         title: 'Perfil',
+        headerBackTitleVisible: false,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+
+    <AppStack.Screen
+      name="NewCall"
+      component={NewCall}
+      options={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        title: 'Nova Conversa',
         headerBackTitleVisible: false,
         headerTitleStyle: {
           fontWeight: 'bold',
