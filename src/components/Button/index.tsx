@@ -9,12 +9,10 @@ interface ButtonProps {
 }
 
 const Button: FC<ButtonProps> = ({ children, title, ...props }) => (
-  <View style={styles.container}>
-    <TouchableOpacity style={styles.button} {...props}>
-      {children}
-      <Text style={styles.buttonText}>{title}</Text>
-    </TouchableOpacity>
-  </View>
+  <TouchableOpacity style={styles.button} {...props}>
+    {children}
+    <Text style={styles.buttonText}>{title}</Text>
+  </TouchableOpacity>
 );
 
 export default Button;

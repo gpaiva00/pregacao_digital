@@ -15,6 +15,7 @@ const AppRoutes: FC = () => (
   <AppStack.Navigator
     screenOptions={{
       cardStyle: { backgroundColor: '#fff' },
+      headerTintColor: '#392E60',
     }}
   >
     <AppStack.Screen

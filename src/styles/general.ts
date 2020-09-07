@@ -14,10 +14,10 @@ export default StyleSheet.create({
     marginVertical: metrics.mediumMargin,
     color: colors.title,
   },
-  lable: {
+  label: {
     fontSize: fonts.regular,
     fontWeight: 'bold',
-    marginBottom: metrics.margin,
+    marginBottom: metrics.mediumMargin,
     color: colors.title,
   },
   infoText: {
@@ -29,7 +29,6 @@ export default StyleSheet.create({
     height: metrics.buttonHeight,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
     borderRadius: metrics.radius,
   },
   defaultInput: {

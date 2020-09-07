@@ -1,16 +1,17 @@
 import { StyleSheet } from 'react-native';
 import metrics from '../../styles/metrics';
 import general from '../../styles/general';
+import fonts from '../../styles/fonts';
 
 const styles = StyleSheet.create({
-  input: {
-    ...general.defaultInput,
+  picker: {
     width: '100%',
+    margin: 0,
+    padding: 0,
   },
-  textInput: {
-    width: '91%',
-    padding: metrics.smallMargin,
-    height: metrics.inputHeight,
+  item: {
+    height: 50,
+    fontSize: fonts.regular,
   },
 });
 

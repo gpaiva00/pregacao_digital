@@ -1,11 +1,22 @@
 import React, { FC, useState, useCallback } from 'react';
 import { View, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import styles from './styles';
+import metrics from '../../styles/metrics';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
+import MyPicker from '../../components/MyPicker';
 
-const NewRecord: FC = () => {
-  const [recordType, setRecordType] = useState('other');
+interface navigation {
+  navigation: StackNavigationProp<any>;
+}
+const NewRecord: FC<navigation> = ({ navigation }) => {
+  const [recordType, setRecordType] = useState('daily');
+  const pickerItems = [
+    { label: 'Pregação diária', value: 'daily' },
+    { label: 'Revisita/Estudo', value: 'other' },
+  ];
 
   const renderRecordType = useCallback(() => {
     if (recordType === 'daily')
@@ -28,17 +39,23 @@ const NewRecord: FC = () => {
               icon="book"
               placeholder="Quantidade"
               keyboardType="numeric"
+              returnKeyType="done"
             />
           </View>
 
-          <View style={styles.inputGroup}>
+          <View style={{ marginBottom: metrics.doubleMargin }}>
             <Text style={styles.label}>Vídeos</Text>
             <Input
               onChangeText={() => {}}
               icon="film"
               placeholder="Quantidade"
               keyboardType="numeric"
+              returnKeyType="done"
             />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Button title="SALVAR" onPress={() => {}} />
           </View>
         </>
       );
@@ -63,18 +80,26 @@ const NewRecord: FC = () => {
           />
         </View>
 
-        <View style={styles.inputGroup}>
+        <View style={{ marginBottom: metrics.doubleMargin }}>
           <Text style={styles.label}>Telefone ou Celular</Text>
           <Input
             onChangeText={() => {}}
             icon="phone"
             placeholder="(11) 91234-5678"
             keyboardType="numbers-and-punctuation"
+            returnKeyType="done"
+          />
+        </View>
+
+        <View style={styles.inputGroup}>
+          <Button
+            title="CONTINUAR"
+            onPress={() => navigation.navigate('RecordDetails')}
           />
         </View>
       </>
     );
-  }, [recordType]);
+  }, [recordType, pickerItems]);
 
   return (
     <KeyboardAvoidingView
@@ -82,7 +107,19 @@ const NewRecord: FC = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       enabled
     >
-      {renderRecordType()}
+      <View style={styles.container}>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Tipo</Text>
+          <MyPicker
+            setValueChange={(value, index) => {
+              setRecordType(value);
+            }}
+            value={recordType}
+            items={pickerItems}
+          />
+        </View>
+        {renderRecordType()}
+      </View>
     </KeyboardAvoidingView>
   );
 };

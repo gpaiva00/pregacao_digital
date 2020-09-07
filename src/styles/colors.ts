@@ -8,7 +8,7 @@ const colors = {
   title: '#1E1E1F',
   text: '#505053',
   info: '#d1d1d1',
-  icon: '#363732',
+  icon: '#392E60',
 };
 
 export default colors;
