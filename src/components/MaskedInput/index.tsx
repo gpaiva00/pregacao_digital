@@ -14,7 +14,7 @@ interface InputProps {
   placeholder: string;
   icon?: string;
   type: TextInputMaskTypeProp;
-  style: any;
+  style?: any;
   options: any;
 }
 
