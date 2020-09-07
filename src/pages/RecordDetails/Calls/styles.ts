@@ -8,6 +8,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  noText: {
+    color: colors.info,
+    fontSize: fonts.regular,
+  },
   callsHeader: {
     flexDirection: 'row',
     alignItems: 'center',

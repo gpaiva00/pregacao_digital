@@ -3,26 +3,22 @@ import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 
 import { Feather } from '@expo/vector-icons';
 import styles from './styles';
+import NoDataView from '../../../components/NoDataView';
 
 const NextCalls: FC = () => {
   const data = [
-    {
-      personName: 'José Pereira',
-      address: 'Rua da capitação, 451',
-      phone: '(11) 2553-1231',
-      calls: [1, 2, 3],
-    },
-    {
-      personName: 'Regina Alves',
-      address: 'Rua cabral de ataíde, 123',
-      phone: '(11) 2553-1231',
-      calls: [1, 2, 3, 1, 2, 3],
-    },
+    // {
+    //   personName: 'José Pereira',
+    //   address: 'Rua da capitação, 451',
+    //   phone: '(11) 2553-1231',
+    //   calls: [1, 2, 3],
+    // },
   ];
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Próximas conversas</Text>
+      {!data.length && <NoDataView text="Não há conversas por enquanto." />}
       <FlatList
         style={{ padding: 10 }}
         data={data}

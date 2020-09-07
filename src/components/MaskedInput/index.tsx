@@ -1,12 +1,8 @@
 import React, { FC, useState } from 'react';
-import {
-  View,
-  TextInput,
-  KeyboardTypeOptions,
-  ReturnKeyTypeOptions,
-} from 'react-native';
+import { View, KeyboardTypeOptions, ReturnKeyTypeOptions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
+import { TextInputMask, TextInputMaskTypeProp } from 'react-native-masked-text';
 import styles from './styles';
 import colors from '../../styles/colors';
 
@@ -17,27 +13,33 @@ interface InputProps {
   keyboardType?: KeyboardTypeOptions;
   placeholder: string;
   icon?: string;
+  type: TextInputMaskTypeProp;
+  style: any;
+  options: any;
 }
 
-const Input: FC<InputProps> = ({
+const MaskedInput: FC<InputProps> = ({
   icon,
   keyboardType,
   returnKeyType,
   value,
   onChangeText,
+  type,
+  style,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View style={styles.input}>
+    <View style={[styles.input, style]}>
       <Feather
         name={icon}
         size={20}
         color={isFocused ? colors.icon : colors.info}
       />
-      <TextInput
+      <TextInputMask
         {...props}
+        type={type}
         value={value}
         onChangeText={onChangeText}
         returnKeyType={returnKeyType}
@@ -51,4 +53,4 @@ const Input: FC<InputProps> = ({
   );
 };
 
-export default Input;
+export default MaskedInput;

@@ -8,13 +8,11 @@ import {
   Platform,
 } from 'react-native';
 
-import { TextInputMask } from 'react-native-masked-text';
-import { Feather } from '@expo/vector-icons';
 import styles from './styles';
-import colors from '../../styles/colors';
 import MyPicker from '../../components/MyPicker';
-// import Input from '../../components/Input';
+import Input from '../../components/Input';
 import Button from '../../components/Button';
+import MaskedInput from '../../components/MaskedInput';
 
 const NewCall: FC = () => {
   const [callType, setCallType] = useState('');
@@ -24,7 +22,6 @@ const NewCall: FC = () => {
   const [callComments, setCallComments] = useState('');
 
   const callTypes = [{ label: '1° Conversa', value: 'firstCall' }];
-  const publications = [{ label: 'Bíblia Ensina', value: 'bibliaensina' }];
 
   return (
     <KeyboardAvoidingView
@@ -46,12 +43,11 @@ const NewCall: FC = () => {
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Publicação</Text>
-          <MyPicker
-            setValueChange={(value, index) => {
-              setCallPublication(value);
-            }}
+          <Input
+            placeholder="Blíblia Ensina"
+            onChangeText={value => setCallPublication(value)}
             value={callPublication}
-            items={publications}
+            icon="book"
           />
         </View>
 
@@ -59,17 +55,32 @@ const NewCall: FC = () => {
         <View style={[styles.inputGroup, styles.dateTimeGroup]}>
           <View style={styles.dateGroup}>
             <Text style={styles.label}>Data</Text>
-            <Feather name="calendar" size={40} color={colors.primary} />
+            <MaskedInput
+              style={[styles.input, { width: '70%' }]}
+              type="datetime"
+              icon="calendar"
+              value={callDate}
+              keyboardType="numeric"
+              placeholder="dd/mm/yyyy"
+              returnKeyType="done"
+              onChangeText={text => {
+                setCallDate(text);
+              }}
+              options={{
+                format: 'DD/MM/YYYY',
+              }}
+            />
           </View>
 
           <View style={styles.timeGroup}>
             <Text style={styles.label}>Hora</Text>
-            {/* <Feather name="calendar" size={20} /> */}
-            <TextInputMask
+            <MaskedInput
               style={styles.input}
+              icon="clock"
               type="datetime"
               value={callTime}
               placeholder="hh:mm"
+              keyboardType="numeric"
               returnKeyType="done"
               onChangeText={text => {
                 setCallTime(text);
@@ -81,7 +92,7 @@ const NewCall: FC = () => {
           </View>
         </View>
 
-        <View style={styles.inputGroup}>
+        <View style={[styles.inputGroup, { marginBottom: '20%' }]}>
           <Text style={styles.label}>Observações</Text>
           <TextInput
             placeholder="Algumas informações sobre sua conversa"

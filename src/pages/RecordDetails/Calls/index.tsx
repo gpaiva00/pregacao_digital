@@ -4,29 +4,14 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import styles from './styles';
 import colors from '../../../styles/colors';
+import NoDataView from '../../../components/NoDataView';
 
 interface CallsProps {
   goToNewCall(): void;
 }
 
 const Calls: FC<CallsProps> = ({ goToNewCall }) => {
-  const data = [
-    {
-      type: '1° Conversa',
-      time: '10:30',
-      date: '01/09/2020',
-      publication: 'Bíblia Ensina',
-      comments: 'Falamos sobre o fim do sofrimento. Li o texto de Apo. 21:3,4',
-    },
-    {
-      type: '2° Conversa',
-      time: '10:30',
-      date: '02/09/2020',
-      publication: 'Bíblia Ensina',
-      comments:
-        'Respondi o que Deus vai fazer no futuro. Li o texto Sal. 37:29',
-    },
-  ];
+  const data = [];
 
   return (
     <View style={styles.container}>
@@ -36,6 +21,8 @@ const Calls: FC<CallsProps> = ({ goToNewCall }) => {
           <FontAwesome5 name="plus-circle" size={25} color={colors.icon} />
         </TouchableOpacity>
       </View>
+
+      {!data.length && <NoDataView text="Crie sua primeira conversa!" />}
 
       {data.map((item, index) => (
         <View key={String(index)} style={styles.item}>

@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: metrics.doubleMargin,
-    paddingBottom: metrics.doubleMargin,
   },
   inputGroup: {
     marginBottom: metrics.margin,
@@ -18,7 +17,7 @@ const styles = StyleSheet.create({
   dateTimeGroup: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   dateGroup: {
     flex: 2,
@@ -26,9 +25,7 @@ const styles = StyleSheet.create({
   timeGroup: {
     flex: 1,
   },
-  input: {
-    ...general.defaultInput,
-  },
+  input: {},
   textarea: {
     ...general.defaultInput,
     height: 80,

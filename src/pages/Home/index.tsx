@@ -1,5 +1,5 @@
 import React, { FC, useLayoutEffect } from 'react';
-import { View, SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import styles from './styles';
