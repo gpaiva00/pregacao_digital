@@ -3,17 +3,19 @@ import { View, FlatList, Text } from 'react-native';
 
 import { FontAwesome5, Feather } from '@expo/vector-icons';
 import styles from './styles';
+import NoDataView from '../../../components/NoDataView';
 
 const DailyPreaching: FC = () => {
   const data = [
-    { time: '1h', calls: 0, videos: 0, publications: 1, studies: 0 },
-    { time: '4h:15min', calls: 4, videos: 0, publications: 5, studies: 0 },
-    { time: '5h', calls: 4, videos: 1, publications: 5, studies: 1 },
+    // { time: '1h', calls: 0, videos: 0, publications: 1, studies: 0 },
+    // { time: '4h:15min', calls: 4, videos: 0, publications: 5, studies: 0 },
+    // { time: '5h', calls: 4, videos: 1, publications: 5, studies: 1 },
   ];
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Pregação Diária</Text>
+      {!data.length && <NoDataView text="Não há registros por enquanto." />}
       <FlatList
         style={{ padding: 10 }}
         data={data}

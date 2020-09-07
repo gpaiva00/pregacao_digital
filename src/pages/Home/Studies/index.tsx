@@ -3,26 +3,28 @@ import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 
 import { FontAwesome5, Feather } from '@expo/vector-icons';
 import styles from './styles';
+import NoDataView from '../../../components/NoDataView';
 
 const Studies: FC = () => {
   const data = [
-    {
-      personName: 'Gabriel Souza',
-      address: 'Rua da capitação, 451',
-      phone: '(11) 2553-1231',
-      calls: [1, 2, 3],
-    },
-    {
-      personName: 'Juvenil Juvencio',
-      address: 'Rua cabral de ataíde, 123',
-      phone: '(11) 2553-1231',
-      calls: [1, 2, 3, 1, 2, 3],
-    },
+    // {
+    //   personName: 'Gabriel Souza',
+    //   address: 'Rua da capitação, 451',
+    //   phone: '(11) 2553-1231',
+    //   calls: [1, 2, 3],
+    // },
+    // {
+    //   personName: 'Juvenil Juvencio',
+    //   address: 'Rua cabral de ataíde, 123',
+    //   phone: '(11) 2553-1231',
+    //   calls: [1, 2, 3, 1, 2, 3],
+    // },
   ];
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Estudos</Text>
+      {!data.length && <NoDataView text="Não há estudos por enquanto." />}
       <FlatList
         style={{ padding: 10 }}
         data={data}
