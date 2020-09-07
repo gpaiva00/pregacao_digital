@@ -1,6 +1,7 @@
 import React, { FC, useState, useCallback } from 'react';
 import { View, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useApp } from '../../hooks/App';
 
 import styles from './styles';
 import metrics from '../../styles/metrics';
@@ -12,39 +13,97 @@ import MaskedInput from '../../components/MaskedInput';
 interface navigation {
   navigation: StackNavigationProp<any>;
 }
+
 const NewRecord: FC<navigation> = ({ navigation }) => {
   const [recordType, setRecordType] = useState('daily');
   const [recordTime, setRecordTime] = useState('');
+  const [recordDate, setRecordDate] = useState('');
+  const [recordPublications, setRecordPublications] = useState('');
+  const [recordVideos, setRecordVideos] = useState('');
+
+  const [callPersonName, setCallPersonName] = useState('');
+  const [callAddress, setCallAddress] = useState('');
+  const [callPhone, setCallPhone] = useState('');
+
+  const { saveDailyRecord } = useApp();
 
   const pickerItems = [
     { label: 'Pregação diária', value: 'daily' },
     { label: 'Revisita/Estudo', value: 'other' },
   ];
 
+  const handleSaveRecord = useCallback(async () => {
+    const record = {
+      recordTime,
+      recordDate,
+      recordPublications: Number(recordPublications),
+      recordVideos: Number(recordVideos),
+    };
+
+    await saveDailyRecord(record);
+    navigation.navigate('Home');
+  }, [
+    navigation,
+    recordDate,
+    recordPublications,
+    recordTime,
+    recordVideos,
+    saveDailyRecord,
+  ]);
+
+  const handleContinue = useCallback(() => {
+    // navigation.navigate('RecordDetails');
+  }, []);
+
   const renderRecordType = useCallback(() => {
     if (recordType === 'daily')
       return (
         <>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Horas</Text>
-            <MaskedInput
-              type="datetime"
-              options={{
-                format: 'HH:mm',
-              }}
-              onChangeText={value => setRecordTime(value)}
-              value={recordTime}
-              icon="clock"
-              placeholder="Horas"
-              keyboardType="numeric"
-              returnKeyType="done"
-            />
+          <View style={[styles.inputGroup, styles.dateTimeGroup]}>
+            <View style={styles.dateGroup}>
+              <Text style={styles.label}>Data</Text>
+              <MaskedInput
+                style={[styles.input, { width: '70%' }]}
+                type="datetime"
+                icon="calendar"
+                value={recordDate}
+                keyboardType="numeric"
+                placeholder="dd/mm/yyyy"
+                returnKeyType="done"
+                onChangeText={text => {
+                  setRecordDate(text);
+                }}
+                options={{
+                  format: 'DD/MM/YYYY',
+                }}
+              />
+            </View>
+
+            <View style={styles.timeGroup}>
+              <Text style={styles.label}>Hora feitas</Text>
+              <MaskedInput
+                style={styles.input}
+                icon="clock"
+                type="datetime"
+                value={recordTime}
+                placeholder="hh:mm"
+                keyboardType="numeric"
+                returnKeyType="done"
+                onChangeText={text => {
+                  setRecordTime(text);
+                }}
+                options={{
+                  format: 'HH:mm',
+                }}
+              />
+            </View>
           </View>
 
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Publicações</Text>
             <Input
-              onChangeText={() => {}}
+              onChangeText={value => setRecordPublications(value)}
+              value={recordPublications}
               icon="book"
               placeholder="Quantidade"
               keyboardType="numeric"
@@ -55,7 +114,8 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
           <View style={{ marginBottom: metrics.doubleMargin }}>
             <Text style={styles.label}>Vídeos</Text>
             <Input
-              onChangeText={() => {}}
+              onChangeText={value => setRecordVideos(value)}
+              value={recordVideos}
               icon="film"
               placeholder="Quantidade"
               keyboardType="numeric"
@@ -64,7 +124,7 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Button title="SALVAR" onPress={() => {}} />
+            <Button title="SALVAR" onPress={handleSaveRecord} />
           </View>
         </>
       );
@@ -72,9 +132,10 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
     return (
       <>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Morador(a)</Text>
+          <Text style={styles.label}>Nome da pessoa</Text>
           <Input
-            onChangeText={() => {}}
+            onChangeText={value => setCallPersonName(value)}
+            value={callPersonName}
             icon="user"
             placeholder="José da Silva"
           />
@@ -83,7 +144,8 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Endereço</Text>
           <Input
-            onChangeText={() => {}}
+            onChangeText={value => setCallAddress(value)}
+            value={callAddress}
             icon="map"
             placeholder="Rua Padre Francisco Carneiro, 123"
           />
@@ -92,7 +154,8 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
         <View style={{ marginBottom: metrics.doubleMargin }}>
           <Text style={styles.label}>Telefone ou Celular</Text>
           <Input
-            onChangeText={() => {}}
+            onChangeText={value => setCallPhone(value)}
+            value={callPhone}
             icon="phone"
             placeholder="(11) 91234-5678"
             keyboardType="numbers-and-punctuation"
@@ -101,10 +164,7 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
         </View>
 
         <View style={styles.inputGroup}>
-          <Button
-            title="CONTINUAR"
-            onPress={() => navigation.navigate('RecordDetails')}
-          />
+          <Button title="CONTINUAR" onPress={handleContinue} />
         </View>
       </>
     );

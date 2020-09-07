@@ -1,7 +1,8 @@
 export default interface IDailyPreaching {
-  time: string;
-  callsQuantity: number;
-  stydiesQuantity: number;
-  publicationsQuantity: number;
-  videosQuantity: number;
+  recordTime: string;
+  recordDate: string;
+  recordCalls?: number;
+  recordStudies?: number;
+  recordPublications: number;
+  recordVideos: number;
 }

@@ -15,6 +15,18 @@ const styles = StyleSheet.create({
   label: {
     ...general.label,
   },
+  dateTimeGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  dateGroup: {
+    flex: 2,
+  },
+  timeGroup: {
+    flex: 1,
+  },
+  input: {},
 });
 
 export default styles;
