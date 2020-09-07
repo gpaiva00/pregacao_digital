@@ -17,7 +17,7 @@ const HeaderRight: FC<HeaderRightProps> = ({
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <TouchableOpacity style={{ marginRight: 15 }} onPress={handleGoToProfile}>
-        <FontAwesome5 name="user" size={22} color={colors.icon} />
+        <Feather name="bar-chart" size={22} color={colors.icon} />
       </TouchableOpacity>
 
       <TouchableOpacity

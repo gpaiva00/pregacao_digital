@@ -63,7 +63,7 @@ const AppRoutes: FC = () => (
       component={Profile}
       options={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        title: 'Perfil',
+        title: 'Relatório',
         headerBackTitleVisible: false,
         headerTitleStyle: {
           fontWeight: 'bold',
