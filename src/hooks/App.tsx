@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import IDailyPreaching from '../common/Interfaces/IDailyPreaching';
+import { IDailyPreaching } from '../common/Interfaces';
 
 interface AppContextProps {
   saveDailyRecord(record: IDailyPreaching): Promise<void>;

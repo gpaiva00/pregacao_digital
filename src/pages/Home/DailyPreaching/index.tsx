@@ -5,7 +5,7 @@ import { FontAwesome5, Feather } from '@expo/vector-icons';
 import { useApp } from '../../../hooks/App';
 import styles from './styles';
 import NoDataView from '../../../components/NoDataView';
-import IDailyPreaching from '../../../common/Interfaces/IDailyPreaching';
+import { IDailyPreaching } from '../../../common/Interfaces';
 
 const DailyPreaching: FC = () => {
   const [data, setData] = useState([] as IDailyPreaching[]);
@@ -17,7 +17,7 @@ const DailyPreaching: FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Pregação Diária</Text>
+      <Text style={styles.title}>Pregação diária</Text>
       {!data.length && <NoDataView text="Não há registros por enquanto." />}
       <FlatList
         style={{ padding: 10 }}
@@ -28,7 +28,7 @@ const DailyPreaching: FC = () => {
         renderItem={({ item }) => (
           <View style={styles.item}>
             <View style={styles.itemHeader}>
-              <Text style={styles.itemTitle}>Pregação</Text>
+              {/* <Text style={styles.itemTitle}>Pregação</Text> */}
               <Text style={styles.itemDate}>{item.recordDate}</Text>
             </View>
             <View style={styles.itemBody}>

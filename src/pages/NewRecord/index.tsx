@@ -1,6 +1,17 @@
 import React, { FC, useState, useCallback } from 'react';
-import { View, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import {
+  fieldIsEmptyValidator,
+  timeValidator,
+  dateValidator,
+} from '../../utils';
 import { useApp } from '../../hooks/App';
 
 import styles from './styles';
@@ -39,6 +50,25 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
       recordPublications: Number(recordPublications),
       recordVideos: Number(recordVideos),
     };
+    // validate empty fields
+    let validator = fieldIsEmptyValidator([
+      { field: record.recordDate, name: 'Data' },
+      { field: record.recordTime, name: 'Hora' },
+    ]);
+
+    if (validator.hasError)
+      return Alert.alert(validator.title, validator.message);
+
+    // validate date
+    validator = dateValidator(recordDate);
+
+    if (validator.hasError)
+      return Alert.alert(validator.title, validator.message);
+    // validate time
+    validator = timeValidator(recordTime);
+
+    if (validator.hasError)
+      return Alert.alert(validator.title, validator.message);
 
     await saveDailyRecord(record);
     navigation.navigate('Home');
@@ -70,17 +100,13 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
                 keyboardType="numeric"
                 placeholder="dd/mm/yyyy"
                 returnKeyType="done"
-                onChangeText={text => {
-                  setRecordDate(text);
-                }}
-                options={{
-                  format: 'DD/MM/YYYY',
-                }}
+                onChangeText={text => setRecordDate(text)}
+                options={{ format: 'DD/MM/YYYY' }}
               />
             </View>
 
             <View style={styles.timeGroup}>
-              <Text style={styles.label}>Hora feitas</Text>
+              <Text style={styles.label}>Horas feitas</Text>
               <MaskedInput
                 style={styles.input}
                 icon="clock"
@@ -89,12 +115,8 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
                 placeholder="hh:mm"
                 keyboardType="numeric"
                 returnKeyType="done"
-                onChangeText={text => {
-                  setRecordTime(text);
-                }}
-                options={{
-                  format: 'HH:mm',
-                }}
+                onChangeText={text => setRecordTime(text)}
+                options={{ format: 'HH:mm' }}
               />
             </View>
           </View>
@@ -102,7 +124,8 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Publicações</Text>
             <Input
-              onChangeText={value => setRecordPublications(value)}
+              onChangeText={value =>
+                setRecordPublications(value.replace(/[^0-9]/g, ''))}
               value={recordPublications}
               icon="book"
               placeholder="Quantidade"
@@ -114,7 +137,8 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
           <View style={{ marginBottom: metrics.doubleMargin }}>
             <Text style={styles.label}>Vídeos</Text>
             <Input
-              onChangeText={value => setRecordVideos(value)}
+              onChangeText={value =>
+                setRecordVideos(value.replace(/[^0-9]/g, ''))}
               value={recordVideos}
               icon="film"
               placeholder="Quantidade"

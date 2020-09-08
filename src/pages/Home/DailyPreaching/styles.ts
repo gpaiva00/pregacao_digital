@@ -15,13 +15,13 @@ const styles = StyleSheet.create({
   },
   item: {
     ...general.defaultTile,
-    height: 180,
-    width: 250,
+    height: 140,
+    width: 160,
   },
   itemHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     marginBottom: metrics.smallMargin,
   },
   itemTitle: {
@@ -35,14 +35,14 @@ const styles = StyleSheet.create({
   },
   itemBody: {
     flex: 1,
-    // justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   itemData: {
     flexDirection: 'row',
     marginVertical: 4,
   },
   itemText: {
-    fontSize: fonts.medium,
+    fontSize: fonts.regular,
     color: '#fff',
   },
   itemIcon: {
