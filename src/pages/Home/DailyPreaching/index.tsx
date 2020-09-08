@@ -3,14 +3,15 @@ import { View, FlatList, Text, Alert } from 'react-native';
 
 import { FontAwesome5, Feather } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useApp } from '../../../hooks/App';
+import { useDailyRecords } from '../../../hooks/DailyRecords';
 import styles from './styles';
 import NoDataView from '../../../components/NoDataView';
 import { IDailyPreaching } from '../../../common/Interfaces';
+import { orderBy } from '../../../utils';
 
 const DailyPreaching: FC = () => {
   const [data, setData] = useState([] as IDailyPreaching[]);
-  const { dailyRecords, removeDailyRecord } = useApp();
+  const { dailyRecords, removeDailyRecord } = useDailyRecords();
 
   const handleRemoveItem = useCallback(
     (id: number) => {
@@ -28,7 +29,8 @@ const DailyPreaching: FC = () => {
   );
 
   useEffect(() => {
-    setData(dailyRecords);
+    const orderedArray = orderBy({ array: dailyRecords, key: 'recordDate' });
+    setData(orderedArray);
   }, [dailyRecords]);
 
   return (
@@ -75,26 +77,26 @@ const DailyPreaching: FC = () => {
                   </Text>
                 </View>
               )}
-              {item.recordPublications > 0 && (
-                <View style={styles.itemData}>
-                  <Feather style={styles.itemIcon} name="book" size={16} />
-                  <Text style={styles.itemText}>
-                    {`${item.recordPublications} ${
-                      item.recordPublications > 1 ? 'publicações' : 'publicação'
-                    }`}
-                  </Text>
-                </View>
-              )}
-              {item.recordVideos > 0 && (
-                <View style={styles.itemData}>
-                  <Feather style={styles.itemIcon} name="film" size={16} />
-                  <Text style={styles.itemText}>
-                    {`${item.recordVideos} ${
-                      item.recordVideos > 1 ? 'vídeos' : 'vídeo'
-                    }`}
-                  </Text>
-                </View>
-              )}
+              <View style={styles.itemData}>
+                <Feather style={styles.itemIcon} name="book" size={16} />
+                <Text style={styles.itemText}>
+                  {`${item.recordPublications} ${
+                    item.recordPublications > 1 || item.recordPublications === 0
+                      ? 'publicações'
+                      : 'publicação'
+                  }`}
+                </Text>
+              </View>
+              <View style={styles.itemData}>
+                <Feather style={styles.itemIcon} name="film" size={16} />
+                <Text style={styles.itemText}>
+                  {`${item.recordVideos} ${
+                    item.recordVideos > 1 || item.recordVideos === 0
+                      ? 'vídeos'
+                      : 'vídeo'
+                  }`}
+                </Text>
+              </View>
             </View>
           </TouchableOpacity>
         )}

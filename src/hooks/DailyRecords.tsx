@@ -9,21 +9,20 @@ import React, {
 import AsyncStorage from '@react-native-community/async-storage';
 import { IDailyPreaching } from '../common/Interfaces';
 
-interface AppContextProps {
+interface DailyRecordsProps {
   saveDailyRecord(record: IDailyPreaching): Promise<void>;
   removeDailyRecord(id: number): Promise<void>;
   dailyRecords: IDailyPreaching[];
   isLoading: boolean;
 }
 
-const AppContext = createContext({} as AppContextProps);
+const Context = createContext({} as DailyRecordsProps);
 const dailyRecordsKey = '@digitalPreachingDaily';
 
-const AppProvider: FC = ({ children }) => {
+const DailyRecordsProvider: FC = ({ children }) => {
   const [dailyRecords, setDailyRecords] = useState([] as IDailyPreaching[]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Save Daily Record
   const saveDailyRecord = useCallback(
     async (record: IDailyPreaching) => {
       const newDailyRecords = [...dailyRecords, record];
@@ -77,17 +76,18 @@ const AppProvider: FC = ({ children }) => {
     loadStoragedData();
   }, []);
 
-  return (
-    <AppContext.Provider value={providerValue}>{children}</AppContext.Provider>
-  );
+  return <Context.Provider value={providerValue}>{children}</Context.Provider>;
 };
 
-function useApp(): AppContextProps {
-  const context = useContext(AppContext);
+function useDailyRecords(): DailyRecordsProps {
+  const context = useContext(Context);
 
-  if (!context) throw new Error('useApp must be used whithin an AppProvider');
+  if (!context)
+    throw new Error(
+      'useDailyRecords must be used whithin an DailyRecordsProvider',
+    );
 
   return context;
 }
 
-export { AppProvider, useApp };
+export { DailyRecordsProvider, useDailyRecords };
