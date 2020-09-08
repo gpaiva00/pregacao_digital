@@ -1,7 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
-import { View, FlatList, Text } from 'react-native';
+import React, { FC, useEffect, useState, useCallback } from 'react';
+import { View, FlatList, Text, Alert } from 'react-native';
 
 import { FontAwesome5, Feather } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useApp } from '../../../hooks/App';
 import styles from './styles';
 import NoDataView from '../../../components/NoDataView';
@@ -9,7 +10,22 @@ import { IDailyPreaching } from '../../../common/Interfaces';
 
 const DailyPreaching: FC = () => {
   const [data, setData] = useState([] as IDailyPreaching[]);
-  const { dailyRecords } = useApp();
+  const { dailyRecords, removeDailyRecord } = useApp();
+
+  const handleRemoveItem = useCallback(
+    (id: number) => {
+      Alert.alert('Excluir registro?', 'Isso não será desfeito!', [
+        {
+          text: 'Cancelar',
+        },
+        {
+          text: 'Excluir',
+          onPress: () => removeDailyRecord(id),
+        },
+      ]);
+    },
+    [removeDailyRecord],
+  );
 
   useEffect(() => {
     setData(dailyRecords);
@@ -26,7 +42,10 @@ const DailyPreaching: FC = () => {
         showsHorizontalScrollIndicator={false}
         keyExtractor={(_, index) => String(index)}
         renderItem={({ item }) => (
-          <View style={styles.item}>
+          <TouchableOpacity
+            style={styles.item}
+            onLongPress={() => handleRemoveItem(item.id)}
+          >
             <View style={styles.itemHeader}>
               {/* <Text style={styles.itemTitle}>Pregação</Text> */}
               <Text style={styles.itemDate}>{item.recordDate}</Text>
@@ -77,7 +96,7 @@ const DailyPreaching: FC = () => {
                 </View>
               )}
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>

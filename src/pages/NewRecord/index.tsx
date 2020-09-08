@@ -21,11 +21,11 @@ import Button from '../../components/Button';
 import MyPicker from '../../components/MyPicker';
 import MaskedInput from '../../components/MaskedInput';
 
-interface navigation {
+interface NewRecordProps {
   navigation: StackNavigationProp<any>;
 }
 
-const NewRecord: FC<navigation> = ({ navigation }) => {
+const NewRecord: FC<NewRecordProps> = ({ navigation }) => {
   const [recordType, setRecordType] = useState('daily');
   const [recordTime, setRecordTime] = useState('');
   const [recordDate, setRecordDate] = useState('');
@@ -43,8 +43,10 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
     { label: 'Revisita/Estudo', value: 'other' },
   ];
 
+  // eslint-disable-next-line consistent-return
   const handleSaveRecord = useCallback(async () => {
     const record = {
+      id: Date.now(),
       recordTime,
       recordDate,
       recordPublications: Number(recordPublications),
@@ -125,7 +127,8 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
             <Text style={styles.label}>Publicações</Text>
             <Input
               onChangeText={value =>
-                setRecordPublications(value.replace(/[^0-9]/g, ''))}
+                setRecordPublications(value.replace(/[^0-9]/g, ''))
+              }
               value={recordPublications}
               icon="book"
               placeholder="Quantidade"
@@ -138,7 +141,8 @@ const NewRecord: FC<navigation> = ({ navigation }) => {
             <Text style={styles.label}>Vídeos</Text>
             <Input
               onChangeText={value =>
-                setRecordVideos(value.replace(/[^0-9]/g, ''))}
+                setRecordVideos(value.replace(/[^0-9]/g, ''))
+              }
               value={recordVideos}
               icon="film"
               placeholder="Quantidade"
