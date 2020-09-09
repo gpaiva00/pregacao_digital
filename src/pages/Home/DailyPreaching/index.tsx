@@ -42,7 +42,7 @@ const DailyPreaching: FC = () => {
         data={data}
         horizontal
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(_, index) => String(index)}
+        keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.item}

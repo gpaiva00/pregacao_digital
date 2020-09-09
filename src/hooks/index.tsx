@@ -1,9 +1,12 @@
 import React, { FC } from 'react';
 
 import { DailyRecordsProvider } from './DailyRecords';
+import { PreachingRecordsProvider } from './PreachingRecords';
 
 const MainProvider: FC = ({ children }) => (
-  <DailyRecordsProvider>{children}</DailyRecordsProvider>
+  <PreachingRecordsProvider>
+    <DailyRecordsProvider>{children}</DailyRecordsProvider>
+  </PreachingRecordsProvider>
 );
 
 export default MainProvider;

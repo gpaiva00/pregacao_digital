@@ -29,17 +29,10 @@ const NewDaily: FC<NewDaily> = ({ navigation }) => {
 
   // eslint-disable-next-line consistent-return
   const handleSaveRecord = useCallback(async () => {
-    const record = {
-      id: Date.now(),
-      recordTime,
-      recordDate,
-      recordPublications: Number(recordPublications),
-      recordVideos: Number(recordVideos),
-    };
     // validate empty fields
     let validator = fieldIsEmptyValidator([
-      { field: record.recordDate, name: 'Data' },
-      { field: record.recordTime, name: 'Hora' },
+      { field: recordDate, name: 'Data' },
+      { field: recordTime, name: 'Hora' },
     ]);
 
     if (validator.hasError)
@@ -56,6 +49,13 @@ const NewDaily: FC<NewDaily> = ({ navigation }) => {
     if (validator.hasError)
       return Alert.alert(validator.title, validator.message);
 
+    const record = {
+      id: Date.now(),
+      recordTime,
+      recordDate,
+      recordPublications: Number(recordPublications),
+      recordVideos: Number(recordVideos),
+    };
     await saveDailyRecord(record);
     navigation.navigate('Home');
   }, [
@@ -104,8 +104,7 @@ const NewDaily: FC<NewDaily> = ({ navigation }) => {
         <Text style={styles.label}>Publicações</Text>
         <Input
           onChangeText={value =>
-            setRecordPublications(value.replace(/[^0-9]/g, ''))
-          }
+            setRecordPublications(value.replace(/[^0-9]/g, ''))}
           value={recordPublications}
           icon="book"
           placeholder="Quantidade"

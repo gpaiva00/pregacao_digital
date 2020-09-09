@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useCallback, useEffect } from 'react';
 
 import {
   View,
@@ -6,22 +6,105 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
 
+import { StackNavigationProp } from '@react-navigation/stack';
+import { usePreachingRecords } from '../../hooks/PreachingRecords';
+import {
+  fieldIsEmptyValidator,
+  dateValidator,
+  timeValidator,
+} from '../../utils';
 import styles from './styles';
 import MyPicker from '../../components/MyPicker';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import MaskedInput from '../../components/MaskedInput';
+import { ICall } from '../../common/Interfaces';
 
-const NewCall: FC = () => {
-  const [callType, setCallType] = useState('');
+type CallType =
+  | '1° Conversa'
+  | '2° Conversa'
+  | '3° Conversa'
+  | 'Estudo Bíblico';
+
+interface NewCallProps {
+  navigation: StackNavigationProp<any>;
+}
+
+const NewCall: FC<NewCallProps> = ({ navigation }) => {
+  const [callType, setCallType] = useState('1° Conversa' as CallType);
   const [callPublication, setCallPublication] = useState('');
   const [callTime, setCallTime] = useState('');
   const [callDate, setCallDate] = useState('');
   const [callComments, setCallComments] = useState('');
 
-  const callTypes = [{ label: '1° Conversa', value: 'firstCall' }];
+  const {
+    handleAddCall,
+    handleAddTypeAndPublication,
+    currentPreachingRecord: { calls },
+  } = usePreachingRecords();
+
+  const callTypes = [
+    { label: '1° Conversa', value: '1° Conversa' },
+    { label: '2° Conversa', value: '2° Conversa' },
+    { label: '3° Conversa', value: '3° Conversa' },
+    { label: 'Estudo Bíblico', value: 'Estudo Bíblico' },
+  ];
+
+  const handleSave = useCallback(() => {
+    // empty field validator
+    let validator = fieldIsEmptyValidator([
+      { field: callPublication, name: 'Publicação' },
+      { field: callDate, name: 'Data' },
+      { field: callTime, name: 'Hora' },
+    ]);
+
+    if (validator.hasError)
+      return Alert.alert(validator.title, validator.message);
+
+    // validate date
+    validator = dateValidator(callDate);
+
+    if (validator.hasError)
+      return Alert.alert(validator.title, validator.message);
+    // validate time
+    validator = timeValidator(callTime);
+
+    if (validator.hasError)
+      return Alert.alert(validator.title, validator.message);
+
+    const call: ICall = {
+      id: Date.now(),
+      type: callType,
+      publication: callPublication,
+      date: callDate,
+      time: callTime,
+      comments: callComments,
+    };
+
+    handleAddCall(call);
+    handleAddTypeAndPublication();
+    navigation.goBack();
+  }, [
+    callComments,
+    callDate,
+    callPublication,
+    callTime,
+    callType,
+    handleAddCall,
+    handleAddTypeAndPublication,
+    navigation,
+  ]);
+
+  useEffect(() => {
+    if (calls.length) {
+      const { publication } = calls[calls.length - 1];
+
+      setCallPublication(publication);
+    }
+  }, [calls]);
 
   return (
     <KeyboardAvoidingView
@@ -63,12 +146,8 @@ const NewCall: FC = () => {
               keyboardType="numeric"
               placeholder="dd/mm/yyyy"
               returnKeyType="done"
-              onChangeText={text => {
-                setCallDate(text);
-              }}
-              options={{
-                format: 'DD/MM/YYYY',
-              }}
+              onChangeText={text => setCallDate(text)}
+              options={{ format: 'DD/MM/YYYY' }}
             />
           </View>
 
@@ -82,12 +161,8 @@ const NewCall: FC = () => {
               placeholder="hh:mm"
               keyboardType="numeric"
               returnKeyType="done"
-              onChangeText={text => {
-                setCallTime(text);
-              }}
-              options={{
-                format: 'HH:mm',
-              }}
+              onChangeText={text => setCallTime(text)}
+              options={{ format: 'HH:mm' }}
             />
           </View>
         </View>
@@ -103,7 +178,7 @@ const NewCall: FC = () => {
             onChangeText={value => setCallComments(value)}
           />
         </View>
-        <Button title="SALVAR" onPress={() => {}} />
+        <Button title="SALVAR" onPress={handleSave} />
         {/* </ScrollView> */}
       </View>
     </KeyboardAvoidingView>

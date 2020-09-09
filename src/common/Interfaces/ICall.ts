@@ -1,7 +1,8 @@
 export default interface ICall {
-  type: '1° conversa' | '2° conversa' | '3° conversa' | 'Estudo bíblico';
+  id: number;
+  type: '1° Conversa' | '2° Conversa' | '3° Conversa' | 'Estudo Bíblico';
   time: string;
   publication: string;
-  date: Date;
+  date: string;
   comments: string;
 }

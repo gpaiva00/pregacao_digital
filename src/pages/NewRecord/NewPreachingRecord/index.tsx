@@ -1,11 +1,13 @@
 import React, { useState, FC, useCallback } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import styles from './styles';
 import metrics from '../../../styles/metrics';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
+import { usePreachingRecords } from '../../../hooks/PreachingRecords';
+import { fieldIsEmptyValidator } from '../../../utils';
 
 interface NewCallProps {
   navigation: StackNavigationProp<any>;
@@ -16,16 +18,36 @@ const NewPreachingRecord: FC<NewCallProps> = ({ navigation }) => {
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
 
+  const { setIsEditing, setCurrentPreachingRecord } = usePreachingRecords();
+
   const handleContinue = useCallback(() => {
-    const preaching = {
+    const validator = fieldIsEmptyValidator([
+      { field: personName, name: 'Nome da pessoa' },
+    ]);
+
+    if (validator.hasError)
+      return Alert.alert(validator.title, validator.message);
+
+    const record = {
       id: Date.now(),
       personName,
       address,
       phone,
+      publication: '',
+      type: 'Revisita/Estudo',
+      calls: [],
     };
-
+    setIsEditing(false);
+    setCurrentPreachingRecord(record);
     navigation.navigate('RecordDetails');
-  }, []);
+  }, [
+    address,
+    navigation,
+    personName,
+    phone,
+    setCurrentPreachingRecord,
+    setIsEditing,
+  ]);
 
   return (
     <>
