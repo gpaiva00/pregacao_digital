@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     maxWidth: '90%',
   },
   itemText: {
-    fontSize: fonts.medium,
+    fontSize: fonts.regular,
     color: '#fff',
   },
   itemIcon: {

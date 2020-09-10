@@ -50,27 +50,29 @@ const Calls: FC<CallsProps> = ({ goToNewCall }) => {
 
             <View style={styles.itemBody}>
               <View style={styles.itemData}>
-                <Feather style={styles.itemIcon} name="clock" size={18} />
+                <Feather style={styles.itemIcon} name="clock" size={20} />
                 <Text style={styles.itemText}>{item.time}</Text>
               </View>
 
               <View style={styles.itemData}>
-                <Feather style={styles.itemIcon} name="book" size={18} />
+                <Feather style={styles.itemIcon} name="book" size={20} />
                 <Text style={styles.itemText}>{item.publication}</Text>
               </View>
 
-              {item.comments.length > 0 && (
-                <View style={styles.itemData}>
-                  <Feather
-                    style={styles.itemIcon}
-                    name="message-square"
-                    size={18}
-                  />
-                  <View style={styles.itemDataComments}>
-                    <Text style={styles.itemText}>{item.comments}</Text>
-                  </View>
+              <View style={styles.itemData}>
+                <Feather
+                  style={styles.itemIcon}
+                  name="message-square"
+                  size={20}
+                />
+                <View style={styles.itemDataComments}>
+                  <Text style={styles.itemText}>
+                    {item.comments.length > 0
+                      ? item.comments
+                      : 'Sem observações'}
+                  </Text>
                 </View>
-              )}
+              </View>
             </View>
           </View>
         )}

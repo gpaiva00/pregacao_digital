@@ -1,6 +1,6 @@
 const colors = {
   header: '#fff',
-  primary: '#9D91CA',
+  primary: '#AA9FD1',
   cardTitle: '#392E60',
   secondary: '#80a1d4',
   inputBorder: '#999',

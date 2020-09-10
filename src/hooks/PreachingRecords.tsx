@@ -13,9 +13,7 @@ interface PreachingRecordsProps {
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
-  setCurrentPreachingRecord: React.Dispatch<
-    React.SetStateAction<IPreachingRecord>
-  >;
+  setCurrentPreachingRecord: React.Dispatch<React.SetStateAction<IPreachingRecord>>;
   currentPreachingRecord: IPreachingRecord;
   handleAddCall(call: ICall): void;
   handleSaveRecord(): void;
@@ -23,9 +21,10 @@ interface PreachingRecordsProps {
 }
 
 const Context = createContext({} as PreachingRecordsProps);
-const dailyRecordsKey = '@digitalPreachinRecords';
+const preachingRecordsKey = '@digitalPreachingRecords';
 
 const PreachingRecordsProvider: FC = ({ children }) => {
+  const [preachingRecords, setPreachingRecords] = useState([] as IPreachingRecord[]);
   const [currentPreachingRecord, setCurrentPreachingRecord] = useState(
     {} as IPreachingRecord,
   );
@@ -59,7 +58,15 @@ const PreachingRecordsProvider: FC = ({ children }) => {
     }
   }, [currentPreachingRecord]);
 
-  const handleSaveRecord = useCallback(() => {}, []);
+  const handleSaveRecord = useCallback(async () => {
+    const newPreachingRecords = [...preachingRecords, currentPreachingRecord];
+
+    setPreachingRecords(newPreachingRecords);
+
+    const newRecord = JSON.stringify(newPreachingRecords);
+
+    await AsyncStorage.setItem(preachingRecordsKey, newRecord);
+  }, [currentPreachingRecord, preachingRecords]);
 
   const providerValue = {
     isEditing,
@@ -72,9 +79,21 @@ const PreachingRecordsProvider: FC = ({ children }) => {
     handleAddTypeAndPublication,
   };
 
-  // useEffect(() => {
+  useEffect(() => {
+    async function loadStoragedData() {
+      // return AsyncStorage.multiRemove([preachingRecordsKey]);
+      setIsLoading(true);
 
-  // }, []);
+      const [[, storagedRecord]] = await AsyncStorage.multiGet([preachingRecordsKey]);
+      console.log(JSON.parse(storagedRecord));
+
+      if (storagedRecord) setPreachingRecords(JSON.parse(storagedRecord));
+
+      setIsLoading(false);
+    }
+
+    loadStoragedData();
+  }, []);
 
   return <Context.Provider value={providerValue}>{children}</Context.Provider>;
 };
@@ -83,9 +102,7 @@ function usePreachingRecords(): PreachingRecordsProps {
   const context = useContext(Context);
 
   if (!context)
-    throw new Error(
-      'usePreachingRecords must be used whithin an PreachingRecords',
-    );
+    throw new Error('usePreachingRecords must be used whithin an PreachingRecords');
 
   return context;
 }

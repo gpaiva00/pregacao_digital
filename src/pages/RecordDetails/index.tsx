@@ -1,11 +1,5 @@
-import React, { FC, useLayoutEffect, useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import React, { FC, useLayoutEffect, useState, useEffect, useCallback } from 'react';
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Feather } from '@expo/vector-icons';
@@ -25,6 +19,11 @@ const RecordDetails: FC<RecordDetailsProps> = ({ navigation }) => {
     currentPreachingRecord: { personName, address, phone, publication, type },
   } = usePreachingRecords();
 
+  const handleSave = useCallback(async () => {
+    await handleSaveRecord();
+    navigation.navigate('Home');
+  }, [handleSaveRecord, navigation]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: personName,
@@ -34,16 +33,13 @@ const RecordDetails: FC<RecordDetailsProps> = ({ navigation }) => {
             <Feather name="edit" size={22} color={colors.icon} />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity
-            style={{ marginRight: 10 }}
-            onPress={handleSaveRecord}
-          >
+          <TouchableOpacity style={{ marginRight: 10 }} onPress={handleSave}>
             <Feather name="save" size={22} color={colors.icon} />
           </TouchableOpacity>
         );
       },
     });
-  }, [handleSaveRecord, isEditing, navigation, personName]);
+  }, [handleSave, handleSaveRecord, isEditing, navigation, personName]);
 
   return (
     <>
@@ -57,24 +53,14 @@ const RecordDetails: FC<RecordDetailsProps> = ({ navigation }) => {
           </View>
 
           <View style={styles.infoGroup}>
-            <Feather
-              style={styles.infoIcon}
-              name="phone"
-              size={22}
-              color={colors.icon}
-            />
+            <Feather style={styles.infoIcon} name="phone" size={22} color={colors.icon} />
             <Text style={styles.infoText}>
               {phone.length ? phone : 'Sem telefone ou celular'}
             </Text>
           </View>
 
           <View style={styles.infoGroup}>
-            <Feather
-              style={styles.infoIcon}
-              name="book"
-              size={22}
-              color={colors.icon}
-            />
+            <Feather style={styles.infoIcon} name="book" size={22} color={colors.icon} />
             <Text style={styles.infoText}>
               {publication.length ? publication : 'Sem publicação'}
             </Text>
@@ -87,9 +73,7 @@ const RecordDetails: FC<RecordDetailsProps> = ({ navigation }) => {
               size={22}
               color={colors.icon}
             />
-            <Text style={styles.infoText}>
-              {type.length ? type : 'Estudo/Revisita'}
-            </Text>
+            <Text style={styles.infoText}>{type.length ? type : 'Estudo/Revisita'}</Text>
           </View>
         </View>
 

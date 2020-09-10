@@ -44,10 +44,7 @@ const DailyRecordsProvider: FC = ({ children }) => {
       newDailyRecords.splice(index, 1);
       setDailyRecords(newDailyRecords);
 
-      await AsyncStorage.setItem(
-        dailyRecordsKey,
-        JSON.stringify(newDailyRecords),
-      );
+      await AsyncStorage.setItem(dailyRecordsKey, JSON.stringify(newDailyRecords));
     },
     [dailyRecords],
   );
@@ -64,9 +61,7 @@ const DailyRecordsProvider: FC = ({ children }) => {
       // return AsyncStorage.multiRemove([dailyRecordsKey]);
       setIsLoading(true);
 
-      const [[, storagedDaily]] = await AsyncStorage.multiGet([
-        dailyRecordsKey,
-      ]);
+      const [[, storagedDaily]] = await AsyncStorage.multiGet([dailyRecordsKey]);
 
       if (storagedDaily) setDailyRecords(JSON.parse(storagedDaily));
 
@@ -83,9 +78,7 @@ function useDailyRecords(): DailyRecordsProps {
   const context = useContext(Context);
 
   if (!context)
-    throw new Error(
-      'useDailyRecords must be used whithin an DailyRecordsProvider',
-    );
+    throw new Error('useDailyRecords must be used whithin an DailyRecordsProvider');
 
   return context;
 }
