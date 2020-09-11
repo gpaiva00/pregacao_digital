@@ -1,7 +1,7 @@
-import React, { useState, FC, useCallback } from 'react';
+import React, { useState, FC, useCallback, useEffect } from 'react';
 import { View, Text, Alert } from 'react-native';
-
 import { StackNavigationProp } from '@react-navigation/stack';
+
 import styles from './styles';
 import metrics from '../../../styles/metrics';
 import Input from '../../../components/Input';
@@ -18,35 +18,55 @@ const NewPreachingRecord: FC<NewCallProps> = ({ navigation }) => {
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
 
-  const { setIsEditing, setCurrentPreachingRecord } = usePreachingRecords();
+  const {
+    setCurrentPreachingRecord,
+    currentPreachingRecord,
+    isEditing,
+  } = usePreachingRecords();
 
   const handleContinue = useCallback(() => {
     const validator = fieldIsEmptyValidator([
       { field: personName, name: 'Nome da pessoa' },
     ]);
 
-    if (validator.hasError)
-      return Alert.alert(validator.title, validator.message);
+    if (validator.hasError) return Alert.alert(validator.title, validator.message);
 
     const record = {
-      id: Date.now(),
+      id: isEditing ? currentPreachingRecord.id : Date.now(),
       personName,
       address,
       phone,
-      publication: '',
-      type: 'Revisita/Estudo',
-      calls: [],
+      publication: isEditing ? currentPreachingRecord.publication : '',
+      type: isEditing ? currentPreachingRecord.type : 'Revisita/Estudo',
+      calls: isEditing ? currentPreachingRecord.calls : [],
     };
-    setIsEditing(false);
+
     setCurrentPreachingRecord(record);
     navigation.navigate('RecordDetails');
   }, [
     address,
+    currentPreachingRecord.calls,
+    currentPreachingRecord.id,
+    currentPreachingRecord.publication,
+    currentPreachingRecord.type,
+    isEditing,
     navigation,
     personName,
     phone,
     setCurrentPreachingRecord,
-    setIsEditing,
+  ]);
+
+  useEffect(() => {
+    if (isEditing) {
+      setPersonName(currentPreachingRecord.personName);
+      setAddress(currentPreachingRecord.address);
+      setPhone(currentPreachingRecord.phone);
+    }
+  }, [
+    currentPreachingRecord.address,
+    currentPreachingRecord.personName,
+    currentPreachingRecord.phone,
+    isEditing,
   ]);
 
   return (

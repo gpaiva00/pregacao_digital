@@ -1,25 +1,33 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect, useCallback } from 'react';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 
 import { Feather } from '@expo/vector-icons';
+import { StackNavigationProp } from '@react-navigation/stack';
 import styles from './styles';
 import NoDataView from '../../../components/NoDataView';
+import { usePreachingRecords } from '../../../hooks/PreachingRecords';
+import { IPreachingRecord } from '../../../common/Interfaces';
 
-const Calls: FC = () => {
-  const data = [
-    // {
-    //   personName: 'José Pereira',
-    //   address: 'Rua da capitação, 451',
-    //   phone: '(11) 2553-1231',
-    //   calls: [1, 2, 3],
-    // },
-    // {
-    //   personName: 'Regina Alves',
-    //   address: 'Rua cabral de ataíde, 123',
-    //   phone: '(11) 2553-1231',
-    //   calls: [1, 2, 3, 1, 2, 3],
-    // },
-  ];
+interface CallsProps {
+  navigation: StackNavigationProp<any>;
+}
+
+const Calls: FC<CallsProps> = ({ navigation }) => {
+  const [data, setData] = useState([] as IPreachingRecord[]);
+  const { callsRecords, setCurrentPreachingRecord, setIsEditing } = usePreachingRecords();
+
+  const handleGoToDetails = useCallback(
+    (item: IPreachingRecord) => {
+      setCurrentPreachingRecord(item);
+      setIsEditing(true);
+      navigation.navigate('RecordDetails');
+    },
+    [navigation, setCurrentPreachingRecord, setIsEditing],
+  );
+
+  useEffect(() => {
+    setData(callsRecords);
+  }, [callsRecords]);
 
   return (
     <View style={styles.container}>
@@ -35,21 +43,21 @@ const Calls: FC = () => {
           <View style={styles.item}>
             <View style={styles.itemHeader}>
               <Text style={styles.itemTitle}>{item.personName}</Text>
-              <Text style={styles.itemDate}>10/05/2020</Text>
+              {/* <Text style={styles.itemDate}>10/05/2020</Text> */}
             </View>
             <View style={styles.itemBody}>
-              {item.address !== '' && (
-                <View style={styles.itemData}>
-                  <Feather style={styles.itemIcon} name="map-pin" size={16} />
-                  <Text style={styles.itemText}>{item.address}</Text>
-                </View>
-              )}
-              {item.phone !== '' && (
-                <View style={styles.itemData}>
-                  <Feather style={styles.itemIcon} name="phone" size={16} />
-                  <Text style={styles.itemText}>{item.phone}</Text>
-                </View>
-              )}
+              <View style={styles.itemData}>
+                <Feather style={styles.itemIcon} name="map-pin" size={16} />
+                <Text style={styles.itemText}>
+                  {item.address !== '' ? item.address : 'Sem endereço'}
+                </Text>
+              </View>
+              <View style={styles.itemData}>
+                <Feather style={styles.itemIcon} name="phone" size={16} />
+                <Text style={styles.itemText}>
+                  {item.phone !== '' ? item.phone : 'Sem telefone'}
+                </Text>
+              </View>
             </View>
             <View style={styles.itemFooter}>
               <Text style={styles.itemText}>
@@ -57,7 +65,10 @@ const Calls: FC = () => {
                   item.calls.length > 1 ? 'conversas' : 'conversa'
                 }`}
               </Text>
-              <TouchableOpacity onPress={() => {}} style={styles.itemButton}>
+              <TouchableOpacity
+                onPress={() => handleGoToDetails(item)}
+                style={styles.itemButton}
+              >
                 <Text style={styles.itemButtonText}>Ver mais</Text>
               </TouchableOpacity>
             </View>

@@ -7,6 +7,7 @@ const colors = {
   background: '#fff',
   title: '#1E1E1F',
   text: '#505053',
+  date: '#f5edf7',
   info: '#d1d1d1',
   icon: '#392E60',
 };

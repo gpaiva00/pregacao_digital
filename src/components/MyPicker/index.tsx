@@ -15,16 +15,10 @@ const MyPicker: FC<PickerProps> = ({ items, value, setValueChange }) => {
       selectedValue={value}
       style={styles.picker}
       itemStyle={styles.item}
-      onValueChange={(itemValue, itemIndex) =>
-        setValueChange(itemValue, itemIndex)
-      }
+      onValueChange={(itemValue, itemIndex) => setValueChange(itemValue, itemIndex)}
     >
       {items.map((item, index) => (
-        <Picker.Item
-          key={String(index)}
-          label={item.label}
-          value={item.value}
-        />
+        <Picker.Item key={String(index)} label={item.label} value={item.value} />
       ))}
     </Picker>
   );

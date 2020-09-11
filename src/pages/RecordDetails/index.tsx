@@ -1,5 +1,12 @@
 import React, { FC, useLayoutEffect, useState, useEffect, useCallback } from 'react';
-import { View, Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Feather } from '@expo/vector-icons';
@@ -16,28 +23,38 @@ const RecordDetails: FC<RecordDetailsProps> = ({ navigation }) => {
   const {
     isEditing,
     handleSaveRecord,
-    currentPreachingRecord: { personName, address, phone, publication, type },
+    handleUpdateRecord,
+    currentPreachingRecord: { personName, address, phone, publication, type, calls },
   } = usePreachingRecords();
 
   const handleSave = useCallback(async () => {
-    await handleSaveRecord();
+    if (!calls.length)
+      return Alert.alert('Não há conversas', 'Crie sua primeira conversa para continuar');
+
+    if (isEditing) await handleUpdateRecord();
+    else await handleSaveRecord();
+
     navigation.navigate('Home');
-  }, [handleSaveRecord, navigation]);
+  }, [calls.length, handleSaveRecord, handleUpdateRecord, isEditing, navigation]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       title: personName,
-      headerRight: () => {
-        return isEditing ? (
-          <TouchableOpacity style={{ marginRight: 10 }} onPress={() => {}}>
-            <Feather name="edit" size={22} color={colors.icon} />
-          </TouchableOpacity>
-        ) : (
+      headerRight: () => (
+        <View style={{ flexDirection: 'row' }}>
+          {isEditing && (
+            <TouchableOpacity
+              style={{ marginRight: 10 }}
+              onPress={() => navigation.navigate('NewRecord')}
+            >
+              <Feather name="edit" size={22} color={colors.icon} />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity style={{ marginRight: 10 }} onPress={handleSave}>
             <Feather name="save" size={22} color={colors.icon} />
           </TouchableOpacity>
-        );
-      },
+        </View>
+      ),
     });
   }, [handleSave, handleSaveRecord, isEditing, navigation, personName]);
 

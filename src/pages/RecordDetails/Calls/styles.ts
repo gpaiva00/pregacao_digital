@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     fontSize: fonts.regular,
   },
   itemDate: {
-    color: colors.cardTitle,
+    color: colors.date,
     fontSize: fonts.medium,
   },
   itemBody: {},

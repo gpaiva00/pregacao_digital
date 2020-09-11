@@ -1,25 +1,20 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { usePreachingRecords } from '../../../hooks/PreachingRecords';
 
-import { FontAwesome5, Feather } from '@expo/vector-icons';
 import styles from './styles';
 import NoDataView from '../../../components/NoDataView';
+import { IPreachingRecord } from '../../../common/Interfaces';
 
 const Studies: FC = () => {
-  const data = [
-    // {
-    //   personName: 'Gabriel Souza',
-    //   address: 'Rua da capitação, 451',
-    //   phone: '(11) 2553-1231',
-    //   calls: [1, 2, 3],
-    // },
-    // {
-    //   personName: 'Juvenil Juvencio',
-    //   address: 'Rua cabral de ataíde, 123',
-    //   phone: '(11) 2553-1231',
-    //   calls: [1, 2, 3, 1, 2, 3],
-    // },
-  ];
+  const [data, setData] = useState([] as IPreachingRecord[]);
+  const { studiesRecords } = usePreachingRecords();
+
+  useEffect(() => {
+    // const orderedArray = orderBy({ array: callsRecords, key: 'recordDate' });
+    setData(studiesRecords);
+  }, [studiesRecords]);
 
   return (
     <View style={styles.container}>
@@ -35,7 +30,7 @@ const Studies: FC = () => {
           <View style={styles.item}>
             <View style={styles.itemHeader}>
               <Text style={styles.itemTitle}>{item.personName}</Text>
-              <Text style={styles.itemDate}>10/05/2020</Text>
+              {/* <Text style={styles.itemDate}>10/05/2020</Text> */}
             </View>
             <View style={styles.itemBody}>
               {item.address !== '' && (

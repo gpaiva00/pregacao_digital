@@ -30,7 +30,7 @@ const Home: FC<HomeProps> = ({ navigation }) => {
       <ScrollView style={styles.scrollView}>
         <NextCalls />
         <DailyPreaching />
-        <Calls />
+        <Calls navigation={navigation} />
         <Studies />
       </ScrollView>
     </SafeAreaView>

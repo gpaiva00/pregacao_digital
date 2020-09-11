@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     fontSize: fonts.regular,
   },
   itemDate: {
-    color: colors.cardTitle,
+    color: colors.date,
     fontSize: fonts.medium,
   },
   itemBody: {
@@ -42,11 +42,11 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   itemText: {
-    fontSize: fonts.medium,
-    color: '#fff',
+    fontSize: fonts.regular,
+    color: colors.cardTitle,
   },
   itemIcon: {
-    color: '#fff',
+    color: colors.cardTitle,
     marginRight: metrics.smallMargin,
   },
   itemFooter: {

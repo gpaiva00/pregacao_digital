@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     fontSize: fonts.regular,
   },
   itemDate: {
-    color: colors.cardTitle,
+    color: colors.date,
     fontSize: fonts.medium,
   },
   itemBody: {
@@ -43,10 +43,10 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: fonts.regular,
-    color: '#fff',
+    color: colors.cardTitle,
   },
   itemIcon: {
-    color: '#fff',
+    color: colors.cardTitle,
     marginRight: metrics.smallMargin,
   },
   itemFooter: {
