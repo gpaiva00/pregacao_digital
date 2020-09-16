@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-
 import { Feather } from '@expo/vector-icons';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { usePreachingRecords } from '../../hooks/PreachingRecords';
+
 import styles from './styles';
 import colors from '../../styles/colors';
 import Calls from './Calls';

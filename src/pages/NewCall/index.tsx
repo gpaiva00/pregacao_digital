@@ -11,11 +11,7 @@ import {
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { usePreachingRecords } from '../../hooks/PreachingRecords';
-import {
-  fieldIsEmptyValidator,
-  dateValidator,
-  timeValidator,
-} from '../../utils';
+import { fieldIsEmptyValidator, dateValidator, timeValidator } from '../../utils';
 import styles from './styles';
 import MyPicker from '../../components/MyPicker';
 import Input from '../../components/Input';
@@ -23,11 +19,7 @@ import Button from '../../components/Button';
 import MaskedInput from '../../components/MaskedInput';
 import { ICall } from '../../common/Interfaces';
 
-type CallType =
-  | '1° Conversa'
-  | '2° Conversa'
-  | '3° Conversa'
-  | 'Estudo Bíblico';
+type CallType = '1° Conversa' | '2° Conversa' | '3° Conversa' | 'Estudo Bíblico';
 
 interface NewCallProps {
   navigation: StackNavigationProp<any>;
@@ -42,7 +34,6 @@ const NewCall: FC<NewCallProps> = ({ navigation }) => {
 
   const {
     handleAddCall,
-    handleAddTypeAndPublication,
     currentPreachingRecord: { calls },
   } = usePreachingRecords();
 
@@ -61,19 +52,16 @@ const NewCall: FC<NewCallProps> = ({ navigation }) => {
       { field: callTime, name: 'Hora' },
     ]);
 
-    if (validator.hasError)
-      return Alert.alert(validator.title, validator.message);
+    if (validator.hasError) return Alert.alert(validator.title, validator.message);
 
     // validate date
     validator = dateValidator(callDate);
 
-    if (validator.hasError)
-      return Alert.alert(validator.title, validator.message);
+    if (validator.hasError) return Alert.alert(validator.title, validator.message);
     // validate time
     validator = timeValidator(callTime);
 
-    if (validator.hasError)
-      return Alert.alert(validator.title, validator.message);
+    if (validator.hasError) return Alert.alert(validator.title, validator.message);
 
     const call: ICall = {
       id: Date.now(),
@@ -85,7 +73,6 @@ const NewCall: FC<NewCallProps> = ({ navigation }) => {
     };
 
     handleAddCall(call);
-    handleAddTypeAndPublication();
     navigation.goBack();
   }, [
     callComments,
@@ -94,7 +81,6 @@ const NewCall: FC<NewCallProps> = ({ navigation }) => {
     callTime,
     callType,
     handleAddCall,
-    handleAddTypeAndPublication,
     navigation,
   ]);
 

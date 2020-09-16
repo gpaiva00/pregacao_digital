@@ -1,15 +1,33 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useCallback } from 'react';
 import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { usePreachingRecords } from '../../../hooks/PreachingRecords';
 
 import styles from './styles';
 import NoDataView from '../../../components/NoDataView';
 import { IPreachingRecord } from '../../../common/Interfaces';
 
-const Studies: FC = () => {
+interface StudiesProps {
+  navigation: StackNavigationProp<any>;
+}
+
+const Studies: FC<StudiesProps> = ({ navigation }) => {
   const [data, setData] = useState([] as IPreachingRecord[]);
-  const { studiesRecords } = usePreachingRecords();
+  const {
+    studiesRecords,
+    setCurrentPreachingRecord,
+    setIsEditing,
+  } = usePreachingRecords();
+
+  const handleGoToDetails = useCallback(
+    (item: IPreachingRecord) => {
+      setCurrentPreachingRecord(item);
+      setIsEditing(true);
+      navigation.navigate('RecordDetails');
+    },
+    [navigation, setCurrentPreachingRecord, setIsEditing],
+  );
 
   useEffect(() => {
     // const orderedArray = orderBy({ array: callsRecords, key: 'recordDate' });
@@ -33,18 +51,18 @@ const Studies: FC = () => {
               {/* <Text style={styles.itemDate}>10/05/2020</Text> */}
             </View>
             <View style={styles.itemBody}>
-              {item.address !== '' && (
-                <View style={styles.itemData}>
-                  <Feather style={styles.itemIcon} name="map-pin" size={16} />
-                  <Text style={styles.itemText}>{item.address}</Text>
-                </View>
-              )}
-              {item.phone !== '' && (
-                <View style={styles.itemData}>
-                  <Feather style={styles.itemIcon} name="phone" size={16} />
-                  <Text style={styles.itemText}>{item.phone}</Text>
-                </View>
-              )}
+              <View style={styles.itemData}>
+                <Feather style={styles.itemIcon} name="map-pin" size={16} />
+                <Text style={styles.itemText}>
+                  {item.address !== '' ? item.address : 'Sem endereço'}
+                </Text>
+              </View>
+              <View style={styles.itemData}>
+                <Feather style={styles.itemIcon} name="phone" size={16} />
+                <Text style={styles.itemText}>
+                  {item.phone !== '' ? item.phone : 'Sem telefone'}
+                </Text>
+              </View>
             </View>
             <View style={styles.itemFooter}>
               <Text style={styles.itemText}>
@@ -52,7 +70,10 @@ const Studies: FC = () => {
                   item.calls.length > 1 ? 'conversas' : 'conversa'
                 }`}
               </Text>
-              <TouchableOpacity onPress={() => {}} style={styles.itemButton}>
+              <TouchableOpacity
+                onPress={() => handleGoToDetails(item)}
+                style={styles.itemButton}
+              >
                 <Text style={styles.itemButtonText}>Ver mais</Text>
               </TouchableOpacity>
             </View>

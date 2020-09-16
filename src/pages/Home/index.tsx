@@ -1,6 +1,7 @@
 import React, { FC, useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { usePreachingRecords } from '../../hooks/PreachingRecords';
 
 import styles from './styles';
 import HeaderRight from './HeaderRight';
@@ -14,12 +15,17 @@ interface HomeProps {
 }
 
 const Home: FC<HomeProps> = ({ navigation }) => {
+  const { setIsEditing } = usePreachingRecords();
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <HeaderRight
           handleGoToProfile={() => navigation.navigate('Profile')}
-          handleGoToNewRegister={() => navigation.navigate('NewRecord')}
+          handleGoToNewRegister={() => {
+            setIsEditing(false);
+            navigation.navigate('NewRecord');
+          }}
         />
       ),
     });
@@ -31,7 +37,7 @@ const Home: FC<HomeProps> = ({ navigation }) => {
         <NextCalls />
         <DailyPreaching />
         <Calls navigation={navigation} />
-        <Studies />
+        <Studies navigation={navigation} />
       </ScrollView>
     </SafeAreaView>
   );

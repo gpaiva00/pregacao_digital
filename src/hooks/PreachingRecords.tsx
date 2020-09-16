@@ -21,7 +21,6 @@ interface PreachingRecordsProps {
   handleAddCall(call: ICall): void;
   handleSaveRecord(): void;
   handleUpdateRecord(): void;
-  handleAddTypeAndPublication(): void;
 }
 
 const Context = createContext({} as PreachingRecordsProps);
@@ -46,31 +45,24 @@ const PreachingRecordsProvider: FC = ({ children }) => {
 
       newCurrentPreachingRecord.calls.push(call);
 
-      setCurrentPreachingRecord(newCurrentPreachingRecord);
-    },
-    [currentPreachingRecord],
-  );
+      // modify reacord type and publication
+      const { publication, type } = call;
 
-  const handleAddTypeAndPublication = useCallback(() => {
-    const newCurrentPreachingRecord = { ...currentPreachingRecord };
-
-    if (newCurrentPreachingRecord.calls.length) {
-      const { publication, type } = newCurrentPreachingRecord.calls[
-        newCurrentPreachingRecord.calls.length - 1
-      ];
-
+      // if type's name has Revisita on it, define new type like Revisita
       const newType = type.indexOf('Estudo') === -1 ? 'Revisita' : 'Estudo';
 
       newCurrentPreachingRecord.type = newType;
       newCurrentPreachingRecord.publication = publication;
 
-      setCurrentPreachingRecord(newCurrentPreachingRecord);
-
-      // type has changed?
+      // type has changed? Refresh studies and calls list at Home page
       if (newType !== currentPreachingRecord.type) setTypeHasChanged(true);
-    }
-  }, [currentPreachingRecord]);
 
+      setCurrentPreachingRecord(newCurrentPreachingRecord);
+    },
+    [currentPreachingRecord],
+  );
+
+  // create new record in storage
   const handleSaveRecord = useCallback(async () => {
     const keyType = storagedKeys[currentPreachingRecord.type];
     let newRecords = [...studiesRecords, currentPreachingRecord];
@@ -83,48 +75,51 @@ const PreachingRecordsProvider: FC = ({ children }) => {
     }
 
     await AsyncStorage.setItem(keyType, JSON.stringify(newRecords));
+
+    // clear fields
+    setIsEditing(false);
   }, [callsRecords, currentPreachingRecord, studiesRecords]);
 
-  const handleTypeHasChanged = useCallback(async () => {
-    // console.log('TYPE HAS CHANGED', currentPreachingRecord.type);
-    const changedType =
-      currentPreachingRecord.type === 'Revisita' ? 'Estudo' : 'Revisita';
-    const newRecords =
-      currentPreachingRecord.type === 'Revisita'
-        ? [...studiesRecords]
-        : [...callsRecords];
+  const handleTypeHasChanged = useCallback(
+    async (current: IPreachingRecord) => {
+      const previousType = current.type === 'Revisita' ? 'Estudo' : 'Revisita';
 
-    const keyType = storagedKeys[changedType];
+      const keyType = storagedKeys[previousType];
+      let storagedRecords = await AsyncStorage.getItem(keyType);
 
-    let storagedRecords = await AsyncStorage.getItem(keyType);
+      storagedRecords = JSON.parse(storagedRecords);
 
-    storagedRecords = JSON.parse(storagedRecords);
+      const storagedRecordIndex = storagedRecords.findIndex(
+        record => record.id === current.id,
+      );
 
-    const storagedRecordIndex = storagedRecords.findIndex(
-      record => record.id === currentPreachingRecord.id,
-    );
+      // remove from storaged
+      storagedRecords.splice(storagedRecordIndex, 1);
+      // set back to storage
+      await AsyncStorage.setItem(keyType, JSON.stringify(storagedRecords));
 
-    // remove from storaged
-    storagedRecords.splice(storagedRecordIndex, 1);
+      const newRecords =
+        current.type === 'Revisita' ? [...studiesRecords] : [...callsRecords];
 
-    await AsyncStorage.setItem(keyType, JSON.stringify(storagedRecords));
+      // remove from state
+      const index = newRecords.findIndex(record => record.id === current.id);
 
-    // remove from state
-    const index = newRecords.findIndex(record => record.id === currentPreachingRecord.id);
-    newRecords.splice(index, 1);
+      newRecords.splice(index, 1);
 
-    // update state
-    if (currentPreachingRecord.type === 'Revisita') setStudiesRecords(newRecords);
-    else setCallsRecords(newRecords);
-  }, [
-    callsRecords,
-    currentPreachingRecord.id,
-    currentPreachingRecord.type,
-    studiesRecords,
-  ]);
+      // update state
+      if (current.type === 'Revisita') {
+        setStudiesRecords(newRecords);
+        setCallsRecords([...callsRecords, current]);
+        return;
+      }
+
+      setCallsRecords(newRecords);
+      setStudiesRecords([...studiesRecords, current]);
+    },
+    [callsRecords, studiesRecords],
+  );
 
   const handleUpdateRecord = useCallback(async () => {
-    const keyType = storagedKeys[currentPreachingRecord.type];
     const newRecords =
       currentPreachingRecord.type === 'Revisita'
         ? [...callsRecords]
@@ -136,11 +131,16 @@ const PreachingRecordsProvider: FC = ({ children }) => {
     // update state
     if (currentPreachingRecord.type === 'Revisita') setCallsRecords(newRecords);
     else setStudiesRecords(newRecords);
+    console.log('handleUpdateRecord', currentPreachingRecord.type);
+
+    if (typeHasChanged) handleTypeHasChanged(currentPreachingRecord);
 
     // update storage
+    const keyType = storagedKeys[currentPreachingRecord.type];
     await AsyncStorage.setItem(keyType, JSON.stringify(newRecords));
 
-    if (typeHasChanged) handleTypeHasChanged();
+    setTypeHasChanged(false);
+    setIsEditing(false);
   }, [
     callsRecords,
     currentPreachingRecord,
@@ -158,7 +158,6 @@ const PreachingRecordsProvider: FC = ({ children }) => {
     handleAddCall,
     handleSaveRecord,
     handleUpdateRecord,
-    handleAddTypeAndPublication,
     callsRecords,
     studiesRecords,
   };
@@ -177,8 +176,6 @@ const PreachingRecordsProvider: FC = ({ children }) => {
         preachingCallsRecordsKey,
         preachingStudiesRecordsKey,
       ]);
-      // console.log('calls', JSON.parse(storagedCallsRecord));
-      // console.log('studies', JSON.parse(storagedStudiesRecord));
 
       if (storagedCallsRecord) setCallsRecords(JSON.parse(storagedCallsRecord));
       if (storagedStudiesRecord) setStudiesRecords(JSON.parse(storagedStudiesRecord));

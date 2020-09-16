@@ -19,12 +19,12 @@ const Calls: FC<CallsProps> = ({ goToNewCall }) => {
   const { currentPreachingRecord } = usePreachingRecords();
 
   useEffect(() => {
-    const orderedArray = orderBy({
-      array: currentPreachingRecord.calls,
-      key: 'date',
-    });
+    // const orderedArray = orderBy({
+    //   array: currentPreachingRecord.calls,
+    //   key: 'date',
+    // });
 
-    setData(orderedArray);
+    setData(currentPreachingRecord.calls);
   }, [currentPreachingRecord]);
 
   return (
@@ -60,16 +60,10 @@ const Calls: FC<CallsProps> = ({ goToNewCall }) => {
               </View>
 
               <View style={styles.itemData}>
-                <Feather
-                  style={styles.itemIcon}
-                  name="message-square"
-                  size={20}
-                />
+                <Feather style={styles.itemIcon} name="message-square" size={20} />
                 <View style={styles.itemDataComments}>
                   <Text style={styles.itemText}>
-                    {item.comments.length > 0
-                      ? item.comments
-                      : 'Sem observações'}
+                    {item.comments.length > 0 ? item.comments : 'Sem observações'}
                   </Text>
                 </View>
               </View>
