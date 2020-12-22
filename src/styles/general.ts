@@ -30,6 +30,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: metrics.radius,
+    flexDirection: 'row',
+    paddingLeft: metrics.mediumMargin,
+    paddingRight: metrics.mediumMargin,
   },
   defaultInput: {
     backgroundColor: '#fff',

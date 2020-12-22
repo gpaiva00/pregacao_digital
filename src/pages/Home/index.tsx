@@ -1,14 +1,11 @@
 import React, { FC, useLayoutEffect } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { usePreachingRecords } from '../../hooks/PreachingRecords';
 
 import styles from './styles';
 import HeaderRight from './HeaderRight';
-import DailyPreaching from './DailyPreaching';
-import Calls from './Calls';
-import Studies from './Studies';
-import NextCalls from './NextCalls';
+import GenericTemplate from '../../components/templates/GenericTemplate';
 
 interface HomeProps {
   navigation: StackNavigationProp<any>;
@@ -32,14 +29,11 @@ const Home: FC<HomeProps> = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <NextCalls />
-        <DailyPreaching />
-        <Calls navigation={navigation} />
-        <Studies navigation={navigation} />
-      </ScrollView>
-    </SafeAreaView>
+    <GenericTemplate buttonPress={() => {}} buttonTitle="Continuar">
+      <View style={{ flex: 1 }}>
+        <Text>OI</Text>
+      </View>
+    </GenericTemplate>
   );
 };
 
