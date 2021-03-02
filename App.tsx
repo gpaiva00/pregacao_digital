@@ -6,15 +6,17 @@ import { AppLoading } from 'expo';
 import MainProvider from './src/hooks';
 import { useDailyRecords } from './src/hooks/DailyRecords';
 
-import Routes from './src/routes';
+import { MainRoutes } from './src/routes';
 
 const App: FC = () => {
   const { isLoading } = useDailyRecords();
+
   if (isLoading) return <AppLoading />;
+
   return (
     <NavigationContainer>
       <MainProvider>
-        <Routes />
+        <MainRoutes />
       </MainProvider>
     </NavigationContainer>
   );

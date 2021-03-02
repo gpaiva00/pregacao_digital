@@ -1,7 +1,3 @@
-import React, { FC } from 'react';
-
-import AppRoutes from './app.routes';
-
-const Routes: FC = () => <AppRoutes />;
-
-export default Routes;
+export { MainRoutes } from './MainStack.routes';
+export { HomeRoutes } from './HomeStack.routes';
+export { RecordsRoutes } from './RecordsStack.routes';

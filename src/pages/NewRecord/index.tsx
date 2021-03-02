@@ -4,7 +4,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { usePreachingRecords } from '../../hooks/PreachingRecords';
 
 import styles from './styles';
-import NewDaily from './NewDaily';
 import NewPreachingRecord from './NewPreachingRecord';
 import MyPicker from '../../components/MyPicker';
 
@@ -20,15 +19,9 @@ const NewRecord: FC<NewRecordProps> = ({ navigation }) => {
   } = usePreachingRecords();
 
   const pickerItems = [
-    { label: 'Pregação diária', value: 'daily' },
-    { label: 'Revisita/Estudo', value: 'other' },
+    { label: 'Revisita', value: 'return_visit' },
+    { label: 'Estudo', value: 'bible_study' },
   ];
-
-  const renderRecordType = useCallback(() => {
-    if (recordType === 'daily') return <NewDaily navigation={navigation} />;
-
-    return <NewPreachingRecord navigation={navigation} />;
-  }, [recordType, navigation]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,9 +29,9 @@ const NewRecord: FC<NewRecordProps> = ({ navigation }) => {
     });
   }, [isEditing, navigation, type]);
 
-  useEffect(() => {
-    if (isEditing) setRecordType('other');
-  }, [isEditing]);
+  // useEffect(() => {
+  //   if (isEditing) setRecordType('other');
+  // }, [isEditing]);
 
   return (
     <KeyboardAvoidingView
@@ -61,7 +54,7 @@ const NewRecord: FC<NewRecordProps> = ({ navigation }) => {
             </>
           )}
         </View>
-        {renderRecordType()}
+        <NewPreachingRecord navigation={navigation} />
       </View>
     </KeyboardAvoidingView>
   );

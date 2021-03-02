@@ -12,24 +12,11 @@ interface HomeProps {
 }
 
 const Home: FC<HomeProps> = ({ navigation }) => {
-  const { setIsEditing } = usePreachingRecords();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HeaderRight
-          handleGoToProfile={() => navigation.navigate('Profile')}
-          handleGoToNewRegister={() => {
-            setIsEditing(false);
-            navigation.navigate('NewRecord');
-          }}
-        />
-      ),
-    });
-  }, [navigation]);
-
   return (
-    <GenericTemplate buttonPress={() => {}} buttonTitle="Continuar">
+    <GenericTemplate
+      buttonPress={() => navigation.navigate('RecordsStack', { screen: 'NewRecord' })}
+      buttonTitle="Continuar"
+    >
       <View style={{ flex: 1 }}>
         <Text>OI</Text>
       </View>

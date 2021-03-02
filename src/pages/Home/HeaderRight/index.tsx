@@ -6,7 +6,6 @@ import colors from '../../../styles/colors';
 import styles from './styles';
 
 interface HeaderRightProps {
-  handleGoToProfile(): void;
   handleGoToNewRegister(): void;
 }
 
@@ -20,10 +19,7 @@ const HeaderRight: FC<HeaderRightProps> = ({
         <Feather name="bar-chart" size={22} color={colors.icon} />
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={{ marginRight: 15 }}
-        onPress={handleGoToNewRegister}
-      >
+      <TouchableOpacity style={{ marginRight: 15 }} onPress={handleGoToNewRegister}>
         <Feather name="plus-circle" size={25} color={colors.icon} />
       </TouchableOpacity>
     </View>
